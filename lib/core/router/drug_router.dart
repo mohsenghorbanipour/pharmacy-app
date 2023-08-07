@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:drug/core/router/routes.dart';
+import 'package:drug/modules/drug%20details/ui/page/drug_details_page.dart';
 import 'package:drug/modules/main/ui/page/main_page.dart';
 import 'package:drug/modules/splash/ui/page/splash_page.dart';
 import 'package:fluro/fluro.dart';
@@ -20,6 +21,15 @@ class DrugRouter {
     Routes.main: Handler(
       handlerFunc: (_, __) => const MainPage(),
     ),
+    Routes.drugDetails: Handler(
+      handlerFunc: (context, __) {
+        Map<String, dynamic> args =
+            context?.settings?.arguments as Map<String, dynamic>;
+        return DrugDetailsPage(
+          drug: args['drug'],
+        );
+      },
+    )
   };
 
   static void setupRouter() {

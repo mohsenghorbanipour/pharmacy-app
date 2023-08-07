@@ -30,6 +30,8 @@ flutter:
   assets:
     - assets/lang/
     - assets/images/
+    - assets/icons/
+    - assets/data/
   
   fonts:
     - family: iranYekan

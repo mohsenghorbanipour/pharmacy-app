@@ -2,8 +2,10 @@ import 'package:drug/core/constants/app_config.dart';
 import 'package:drug/core/router/drug_router.dart';
 import 'package:drug/core/router/routes.dart';
 import 'package:drug/core/theme/drug_theme.dart';
+import 'package:drug/modules/main/ui/bloc/main_page_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DrugApp extends StatelessWidget {
   const DrugApp({super.key});
@@ -12,30 +14,33 @@ class DrugApp extends StatelessWidget {
       GlobalKey<NavigatorState>(debugLabel: 'mainNavigator');
 
   @override
-  Widget build(BuildContext context) => EasyLocalization(
-        supportedLocales: AppConfig.supportedLocales,
-        path: AppConfig.localePath,
-        startLocale: AppConfig.persianLocale,
-        fallbackLocale: AppConfig.persianLocale,
-        useOnlyLangCode: true,
-        child: Builder(
-          builder: (context) {
-            return MaterialApp(
-              navigatorKey: navigatorKey,
-              // title: AppConfig.appName,
-              builder: (context, child) {
-                child = myBuilder(context, child);
-                return child!;
-              },
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              debugShowCheckedModeBanner: false,
-              initialRoute: Routes.splash,
-              onGenerateRoute: DrugRouter.router.generator,
-              theme: DrugTheme.light,
-            );
-          },
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (BuildContext context) => MainPageBloc()..getDrugs(),
+        builder: (context, child) => EasyLocalization(
+          supportedLocales: AppConfig.supportedLocales,
+          path: AppConfig.localePath,
+          startLocale: AppConfig.persianLocale,
+          fallbackLocale: AppConfig.persianLocale,
+          useOnlyLangCode: true,
+          child: Builder(
+            builder: (context) {
+              return MaterialApp(
+                navigatorKey: navigatorKey,
+                // title: AppConfig.appName,
+                builder: (context, child) {
+                  child = myBuilder(context, child);
+                  return child!;
+                },
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                debugShowCheckedModeBanner: false,
+                initialRoute: Routes.splash,
+                onGenerateRoute: DrugRouter.router.generator,
+                theme: DrugTheme.light,
+              );
+            },
+          ),
         ),
       );
 }
